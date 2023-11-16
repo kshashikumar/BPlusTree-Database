@@ -3,10 +3,12 @@ import java.io.*;
 
 public class BPlusMain{
     public static void main(String args[]){
-         BPlusTree<String,String> bp = new BPlusTree<String,String>();
-         Map<String,String> data = new HashMap<String,String>();
+        BPlusTree<String,String> bp = new BPlusTree<String,String>();
+        Map<String,String> data = new HashMap<String,String>();
+        String filePath="";
         int ch=0;
         System.out.println(" BPlus Database");
+        Scanner s = new Scanner(System.in);
         while(true){
             System.out.println(" BPlus Database");
             System.out.println(" 1. Load BPlus File");
@@ -16,12 +18,11 @@ public class BPlusMain{
             System.out.println(" 5. Delete an element");
             System.out.println(" 6. exit");
             
-            Scanner s = new Scanner(System.in);
             int  num = Integer.parseInt(s.nextLine());
 
             switch(num){
                 case 1: System.out.println(" Input file path ");
-                        String filePath=s.nextLine();
+                        filePath=s.nextLine();
                         try {
                         BufferedReader reader = new BufferedReader(new FileReader(filePath));
                         String line;
@@ -66,9 +67,45 @@ public class BPlusMain{
                 break;
             }
         }
+        System.out.println("Do you want to save the changes?  Y/N ");
+        String k=s.nextLine();
+        if(k.equalsIgnoreCase("Y")){
+                clearTheFile(filePath);
+                int c=0;
+                ArrayList<String> sortedKeys = new ArrayList<String>(data.keySet());
+                Collections.sort(sortedKeys);
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))){
+                       for (String x : sortedKeys){
+                                writer.write(x+"        "+data.get(x));
+                                c++;
+                                if(c!=sortedKeys.size()){
+                                         writer.newLine();
+                                }
+                               
+                       }
+                }
+                catch(IOException ex){
+                        ex.printStackTrace();
+                }
+        } else {
+                System.out.println(" No changes will be made to partfile");
+        }
         System.out.println("Total Splits : "+ bp.totSplits);
         System.out.println("Parent Splits : "+ bp.parentSplits);
         System.out.println("Total Fusions : "+ bp.totFusions);
         System.out.println("Parent Fusions : "+ bp.parentFusions);
+        System.out.println("Tree depth : "+ bp.calculateDepth(bp.root));
+    }
+
+    public static void clearTheFile(String filePath) {
+        try{
+        FileWriter fwOb = new FileWriter(filePath, false); 
+        PrintWriter pwOb = new PrintWriter(fwOb, false);
+        pwOb.flush();
+        pwOb.close();
+        fwOb.close();
+        } catch(Exception e){
+                System.out.println(e);
+        }
     }
 }

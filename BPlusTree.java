@@ -1,6 +1,8 @@
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Map.Entry;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * BPlusTree Class Assumptions: 1. No duplicate keys inserted 2. Order D:
@@ -29,6 +31,40 @@ public class BPlusTree<K extends Comparable<K>, T> {
             }
         }
         return null;
+    }
+
+     public int calculateDepth(Node root) {
+        if (root == null) {
+            return 0;
+        }
+
+        if (root instanceof LeafNode) {
+            return 1;
+        }
+
+        int depth = 0;
+        Queue<Node> queue = new LinkedList<>();
+        queue.offer(root);
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            depth++;
+
+            for (int i = 0; i < size; i++) {
+                Node current = queue.poll();
+
+                if (current instanceof IndexNode) {
+                    IndexNode indexNode = (IndexNode) current;
+                    for (int j = 0; j < indexNode.keys.size() + 1; j++) {
+                        if ((Node)indexNode.children.get(j) != null) {
+                            queue.offer((Node)indexNode.children.get(j));
+                        }
+                    }
+                }
+            }
+        }
+
+        return depth;
     }
 
     private LeafNode searchLeaf(Node node, K key) {
@@ -68,12 +104,13 @@ public class BPlusTree<K extends Comparable<K>, T> {
             return node;
         } else {
             IndexNode tmp = (IndexNode)node;// Now it is a index node
-            if (searchKey.compareTo(node.keys.get(0)) < 0){
+            System.out.println("inside  "+node.keys.size());
+            if (node.keys.size() >0 && searchKey.compareTo(node.keys.get(0)) < 0){
                 System.out.println("inside < "+root);
                 return treeSearch((Node)(tmp.children.get(0)),searchKey);
-            } else if (searchKey.compareTo(node.keys.get(node.keys.size()-1)) >= 0){
+            } else if (node.keys.size()>0 && searchKey.compareTo(node.keys.get(node.keys.size()-1)) >= 0){
                 System.out.println("inside > "+root);
-                return treeSearch((Node)(tmp.children.get(tmp.children.size()-1)),searchKey);
+                return treeSearch((Node)tmp.children.get(tmp.children.size()-1),searchKey);
             } else {
                 System.out.println("inside = "+root);
                 //binary search
