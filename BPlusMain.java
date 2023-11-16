@@ -16,7 +16,8 @@ public class BPlusMain{
             System.out.println(" 3. Print BPlus Tree");
             System.out.println(" 4. Insert an element");
             System.out.println(" 5. Delete an element");
-            System.out.println(" 6. exit");
+            System.out.println(" 6. Update an element");
+            System.out.println(" 7. exit");
             
             int  num = Integer.parseInt(s.nextLine());
 
@@ -55,7 +56,14 @@ public class BPlusMain{
                         bp.delete(key2);
                         data.remove(key2);
                         break;
-                case 6: System.out.println(" Existing the Console Prompt.... ");
+                case 6: System.out.println(" Enter Key to update ");
+                        String key3=s.nextLine();
+                        System.out.println(" Enter new Value for provided key ");
+                        String value3=s.nextLine();
+                        bp.update(key3,value3);
+                        data.put(key3,value3);
+                        break;
+                case 7: System.out.println(" Existing the Console Prompt.... ");
                         ch=1;
                         break;
                 default:

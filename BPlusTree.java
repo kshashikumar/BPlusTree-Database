@@ -131,6 +131,41 @@ public class BPlusTree<K extends Comparable<K>, T> {
         }
     }
 
+    public void update(K key, T newValue) {
+        if (root == null || key == null) {
+            return;
+        }
+        updateLeaf(root, key, newValue);
+    }
+
+    private void updateLeaf(Node node, K key, T newValue) {
+        if (node.isLeafNode) {
+            LeafNode leafNode = (LeafNode) node;
+            int index = findKeyIndex(leafNode.keys, key);
+
+            if (index != -1) {
+                leafNode.values.set(index, newValue);
+            }
+        } else {
+            IndexNode indexNode = (IndexNode) node;
+            int i = 0;
+            while (i < indexNode.keys.size() && key.compareTo((K)indexNode.keys.get(i)) >= 0) {
+                i++;
+            }
+            updateLeaf((Node)indexNode.children.get(i), key, newValue);
+        }
+    }
+
+    private int findKeyIndex(ArrayList<K> keys, K key) {
+        for (int i = 0; i < keys.size(); i++) {
+            if (key.compareTo(keys.get(i)) == 0) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+
     /**
 	 * Insert a key/value pair into the BPlusTree
 	 * 
