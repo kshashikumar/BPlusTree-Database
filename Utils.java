@@ -3,37 +3,12 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.*;
 import java.io.*;
 
-/**
- * Class contains methods assisting coding and testing
- * 
- */
 public class Utils<K extends Comparable<K>, T> extends BPlusTree<K,T> {
 
-  public  Map<K,T> mp = new HashMap<K,T>(); 
+  public  Map<K,T> mp = new HashMap<K,T>();
 
-	/**
-	 * Bulk Insert test data
-	 * 
-	 * @param b
-	 * @param tests
-	 */
-	public static <K extends Comparable<K>, T> void 
-	    bulkInsert(BPlusTree<K,T> b, K[] tests, T[] testValues) {
-		for (int i = 0; i < tests.length; i++) {
-			b.insert(tests[i], testValues[i]);
-		}
-
-	}
-
-	
-	public String 
-    outputTree(BPlusTree<K,T> tree) {
-
-    
-  /* Temporary queue. */
+	public String outputTree(BPlusTree<K,T> tree) {
   LinkedBlockingQueue<Node<K,T>> queue;
-  
-  /* Create a queue to hold node pointers. */
   queue = new LinkedBlockingQueue<Node<K,T>>();
   String result = "";
   
@@ -92,11 +67,8 @@ public class Utils<K extends Comparable<K>, T> extends BPlusTree<K,T> {
 }
 	
 	
-	/**
-	 * print the current tree to console
-	 * 
-	 * @param root
-	 */
+//print the current tree to console
+
 	public void printTree(BPlusTree<K,T> tree){
     outputTree(tree);
     Vector<String> v= new Vector<String>();

@@ -24,13 +24,7 @@ public class IndexNode<K extends Comparable<K>, T> extends Node<K,T> {
 
 	}
 
-	/**
-	 * insert the entry into this node at the specified index so that it still
-	 * remains sorted
-	 * 
-	 * @param e
-	 * @param index
-	 */
+//insert the entry into this node at the specified index so that it still
 	public void insertSorted(Entry<K, Node<K,T>> e, int index) {
 		K key = e.getKey();
 		Node<K,T> child = e.getValue();

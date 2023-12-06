@@ -5,9 +5,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * BPlusTree Class Assumptions: 1. No duplicate keys inserted 2. Order D:
- * D<=number of keys in a node <=2*D 3. All keys are non-negative
- * (You should use BPlusTree.D in your code. Don't hard-code "2" everywhere.)
+1. No duplicate keys inserted 2. Order D:D<=number of keys in a node <=2*D 3. All keys are non-negative
  */
 public class BPlusTree<K extends Comparable<K>, T> {
 
@@ -80,12 +78,8 @@ public class BPlusTree<K extends Comparable<K>, T> {
         }
     }
 
-	 /** Search the value for a specific key
-	 * 
-	 * @param key
-	 * @return value
-     * 
-     */
+//Search the value for a specific key
+
 	public T search(K key) {
         if (root == null || key == null)
             return null;
@@ -131,6 +125,7 @@ public class BPlusTree<K extends Comparable<K>, T> {
         }
     }
 
+//update value of an element passing key
     public void update(K key, T newValue) {
         if (root == null || key == null) {
             return;
@@ -166,12 +161,8 @@ public class BPlusTree<K extends Comparable<K>, T> {
     }
 
 
-    /**
-	 * Insert a key/value pair into the BPlusTree
-	 * 
-	 * @param key
-	 * @param value
-	 */
+// Insert a key/value pair into the BPlusTree
+
 	public void insert(K key, T value) {
         Entry<K,Node<K,T>> entry = new AbstractMap.SimpleEntry<K,Node<K,T>>(key, new LeafNode<K, T>(key,value));
         if(root == null)
@@ -245,13 +236,8 @@ public class BPlusTree<K extends Comparable<K>, T> {
         }
     }
 
-	/**
-	 * Split a leaf node and return the new right node and the splitting
-	 * key as an Entry<splittingKey, RightNode>
-	 * 
-	 * @param leaf
-	 * @return the key/node pair as an Entry
-	 */
+// Split a leaf node and return the new right node and the splitting key as an Entry<splittingKey, RightNode>
+
 	public Entry<K, Node<K,T>> splitLeafNode(LeafNode<K,T> leaf) {
         totSplits=totSplits+1;
         ArrayList<K> rightKeys = new ArrayList<K>();
@@ -277,13 +263,7 @@ public class BPlusTree<K extends Comparable<K>, T> {
 		return entry;
 	}
 
-	/**
-	 * split an indexNode and return the new right node and the splitting
-	 * key as an Entry<splittingKey, RightNode>
-	 * 
-	 * @param index
-	 * @return new key/node pair as an Entry
-	 */
+// split an indexNode and return the new right node and the splitting key as an Entry<splittingKey, RightNode>
 	public Entry<K, Node<K,T>> splitIndexNode(IndexNode<K,T> index) {
         totSplits=totSplits+1;
         parentSplits=parentSplits+1;
@@ -308,11 +288,8 @@ public class BPlusTree<K extends Comparable<K>, T> {
 		return entry;
 	}
 
-	/**
-	 * Delete a key/value pair from this B+Tree
-	 * 
-	 * @param key
-	 */
+// Delete a key/value pair from this B+Tree
+
 	public void delete(K key) {
         if (root == null)
             return;
@@ -432,16 +409,8 @@ public class BPlusTree<K extends Comparable<K>, T> {
     }
 
 	/**
-	 * Handle LeafNode Underflow (merge or redistribution)
-	 * 
-	 * @param left
-	 *            : the smaller node
-	 * @param right
-	 *            : the bigger node
-	 * @param parent
-	 *            : their parent index node
-	 * @return the splitkey position in parent if merged so that parent can
-	 *         delete the splitkey later on. -1 otherwise
+	 * Handle LeafNode Underflow (merge or redistribution) left: the smaller node, right: the bigger node, parent: their parent index node return the splitkey position in parent if merged so that parent can
+	 * delete the splitkey later on. -1 otherwise
 	 */
 	public int handleLeafNodeUnderflow(LeafNode<K,T> left, LeafNode<K,T> right,
 			IndexNode<K,T> parent) {
@@ -497,16 +466,8 @@ public class BPlusTree<K extends Comparable<K>, T> {
 	}
 
 	/**
-	 * Handle IndexNode Underflow (merge or redistribution)
-	 * 
-	 * @param leftIndex
-	 *            : the smaller node
-	 * @param rightIndex
-	 *            : the bigger node
-	 * @param parent
-	 *            : their parent index node
-	 * @return the splitkey position in parent if merged so that parent can
-	 *         delete the splitkey later on. -1 otherwise
+	 * Handle IndexNode Underflow (merge or redistribution) leftIndex smaller node, rightIndex bigger node, parent index node, return the splitkey position in parent if merged so that parent can
+	 * delete the splitkey later on. -1 otherwise
 	 */
 	public int handleIndexNodeUnderflow(IndexNode<K,T> leftIndex, IndexNode<K,T> rightIndex, IndexNode<K,T> parent) {
         parentFusions=parentFusions+1;

@@ -23,12 +23,8 @@ public class LeafNode<K extends Comparable<K>, T> extends Node<K, T> {
 
 	}
 
-	/**
-	 * insert key/value into this node so that it still remains sorted
-	 * 
-	 * @param key
-	 * @param value
-	 */
+// insert key/value into this node so that it still remains sorted
+
 	public void insertSorted(K key, T value) {
 		if (key.compareTo(keys.get(0)) < 0) {
 			keys.add(0, key);
